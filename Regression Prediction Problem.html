@@ -1,0 +1,2242 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>regression-prediction-problem</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Regression Prediction Problem_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Regression Prediction Problem_files/libs/quarto-html/quarto.js"></script>
+<script src="Regression Prediction Problem_files/libs/quarto-html/popper.min.js"></script>
+<script src="Regression Prediction Problem_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Regression Prediction Problem_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Regression Prediction Problem_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Regression Prediction Problem_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Regression Prediction Problem_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Regression Prediction Problem_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Regression Prediction Problem_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.read_csv(<span class="st">'kaggle_train.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> pd.read_csv(<span class="st">'kaggle_test.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> train.corrwith(train.money_made_inv)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>corr.sort_values(ascending <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>money_made_inv          1.000000
+bc_util                 0.095192
+pub_rec                 0.057876
+delinq_2yrs             0.049182
+int_rate                0.049109
+acc_open_past_24mths    0.048269
+total_rec_late_fee      0.033735
+num_tl_90g_dpd_24m      0.025438
+tot_coll_amt            0.024828
+pub_rec_bankruptcies    0.023218
+acc_now_delinq          0.021542
+num_tl_30dpd            0.015502
+num_tl_120dpd_2m        0.013539
+mort_acc                0.003898
+delinq_amnt             0.001890
+dti                     0.001325
+num_sats               -0.037346
+avg_cur_bal            -0.056990
+annual_inc             -0.064129
+tot_cur_bal            -0.077973
+id                     -0.299772
+loan_amnt              -0.403774
+out_prncp_inv          -0.965511
+dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="152">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'money_made_inv~bc_util+out_prncp_inv'</span>, data <span class="op">=</span> train).fit()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="152">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>     <td>money_made_inv</td>  <th>  R-squared:         </th> <td>   0.933</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.933</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>4.027e+04</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Thu, 16 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>02:14:57</td>     <th>  Log-Likelihood:    </th> <td> -51233.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  5778</td>      <th>  AIC:               </th> <td>1.025e+05</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  5775</td>      <th>  BIC:               </th> <td>1.025e+05</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+        <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>     <td>  -33.3026</td> <td>   52.624</td> <td>   -0.633</td> <td> 0.527</td> <td> -136.465</td> <td>   69.860</td>
+</tr>
+<tr>
+  <th>bc_util</th>       <td>    6.9113</td> <td>    0.792</td> <td>    8.725</td> <td> 0.000</td> <td>    5.358</td> <td>    8.464</td>
+</tr>
+<tr>
+  <th>out_prncp_inv</th> <td>   -0.8557</td> <td>    0.003</td> <td> -282.413</td> <td> 0.000</td> <td>   -0.862</td> <td>   -0.850</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>3910.573</td> <th>  Durbin-Watson:     </th> <td>   1.866</td> 
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>65091.482</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 3.044</td>  <th>  Prob(JB):          </th> <td>    0.00</td> 
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>18.274</td>  <th>  Cond. No.          </th> <td>2.02e+04</td> 
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 2.02e+04. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="153">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>prediction <span class="op">=</span> model.predict(train)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>np.sqrt(((train.money_made_inv <span class="op">-</span> prediction)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="153">
+<pre><code>1716.2994409881856</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="154">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> (<span class="dv">8</span>,<span class="dv">6</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.scatterplot(x <span class="op">=</span> model.fittedvalues, y<span class="op">=</span>model.resid,color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [prediction.<span class="bu">min</span>(),prediction.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residuals'</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Regression%20Prediction%20Problem_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="155">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># bc_util</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.scatterplot(x <span class="op">=</span> train.bc_util, y<span class="op">=</span>train.money_made_inv,color <span class="op">=</span> <span class="st">'orange'</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># out_prncp</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> sns.scatterplot(x <span class="op">=</span> train.out_prncp_inv, y<span class="op">=</span>train.money_made_inv, color <span class="op">=</span> <span class="st">'orange'</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># loan_amnt</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> sns.scatterplot(x <span class="op">=</span> train.loan_amnt, y<span class="op">=</span>train.money_made_inv, color <span class="op">=</span> <span class="st">'orange'</span>, ax<span class="op">=</span>axes[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Regression%20Prediction%20Problem_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="156">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'(money_made_inv**2)~bc_util+out_prncp_inv+I(out_prncp_inv**2)+bc_util*out_prncp_inv'</span>, data <span class="op">=</span> train).fit()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>model1.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="156">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>     <td>money_made_inv</td>  <th>  R-squared:         </th> <td>   0.942</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.942</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>2.346e+04</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Thu, 16 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>02:14:59</td>     <th>  Log-Likelihood:    </th> <td> -50817.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  5778</td>      <th>  AIC:               </th> <td>1.016e+05</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  5773</td>      <th>  BIC:               </th> <td>1.017e+05</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     4</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+            <td></td>               <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>             <td>  -78.8767</td> <td>   56.071</td> <td>   -1.407</td> <td> 0.160</td> <td> -188.796</td> <td>   31.043</td>
+</tr>
+<tr>
+  <th>bc_util</th>               <td>    3.5072</td> <td>    0.857</td> <td>    4.093</td> <td> 0.000</td> <td>    1.827</td> <td>    5.187</td>
+</tr>
+<tr>
+  <th>out_prncp_inv</th>         <td>   -0.7192</td> <td>    0.009</td> <td>  -75.762</td> <td> 0.000</td> <td>   -0.738</td> <td>   -0.701</td>
+</tr>
+<tr>
+  <th>I(out_prncp_inv ** 2)</th> <td>-7.794e-06</td> <td> 2.82e-07</td> <td>  -27.654</td> <td> 0.000</td> <td>-8.35e-06</td> <td>-7.24e-06</td>
+</tr>
+<tr>
+  <th>bc_util:out_prncp_inv</th> <td>    0.0010</td> <td>    0.000</td> <td>    9.193</td> <td> 0.000</td> <td>    0.001</td> <td>    0.001</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>4011.583</td> <th>  Durbin-Watson:     </th> <td>   1.950</td> 
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>78559.911</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 3.091</td>  <th>  Prob(JB):          </th> <td>    0.00</td> 
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>19.973</td>  <th>  Cond. No.          </th> <td>5.56e+08</td> 
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 5.56e+08. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="157">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>prediction1 <span class="op">=</span> model1.predict(train)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>np.sqrt(((train.money_made_inv <span class="op">-</span> np.sqrt(prediction1))<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/linhnganguyen/opt/anaconda3/lib/python3.9/site-packages/pandas/core/arraylike.py:397: RuntimeWarning: invalid value encountered in sqrt
+  result = getattr(ufunc, method)(*inputs, **kwargs)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="157">
+<pre><code>98.4850858726925</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="158">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> (<span class="dv">8</span>,<span class="dv">6</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.scatterplot(x <span class="op">=</span> model1.fittedvalues, y<span class="op">=</span>model1.resid,color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [prediction1.<span class="bu">min</span>(),prediction1.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residuals'</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Regression%20Prediction%20Problem_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="159">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'money_made_inv~bc_util+out_prncp_inv+I(out_prncp_inv**2)+bc_util*out_prncp_inv'</span>, data <span class="op">=</span> train).fit()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>model2.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="159">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>     <td>money_made_inv</td>  <th>  R-squared:         </th> <td>   0.942</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.942</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>2.346e+04</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Thu, 16 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>02:14:59</td>     <th>  Log-Likelihood:    </th> <td> -50817.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  5778</td>      <th>  AIC:               </th> <td>1.016e+05</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  5773</td>      <th>  BIC:               </th> <td>1.017e+05</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     4</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+            <td></td>               <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>             <td>  -78.8767</td> <td>   56.071</td> <td>   -1.407</td> <td> 0.160</td> <td> -188.796</td> <td>   31.043</td>
+</tr>
+<tr>
+  <th>bc_util</th>               <td>    3.5072</td> <td>    0.857</td> <td>    4.093</td> <td> 0.000</td> <td>    1.827</td> <td>    5.187</td>
+</tr>
+<tr>
+  <th>out_prncp_inv</th>         <td>   -0.7192</td> <td>    0.009</td> <td>  -75.762</td> <td> 0.000</td> <td>   -0.738</td> <td>   -0.701</td>
+</tr>
+<tr>
+  <th>I(out_prncp_inv ** 2)</th> <td>-7.794e-06</td> <td> 2.82e-07</td> <td>  -27.654</td> <td> 0.000</td> <td>-8.35e-06</td> <td>-7.24e-06</td>
+</tr>
+<tr>
+  <th>bc_util:out_prncp_inv</th> <td>    0.0010</td> <td>    0.000</td> <td>    9.193</td> <td> 0.000</td> <td>    0.001</td> <td>    0.001</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>4011.583</td> <th>  Durbin-Watson:     </th> <td>   1.950</td> 
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>78559.911</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 3.091</td>  <th>  Prob(JB):          </th> <td>    0.00</td> 
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>19.973</td>  <th>  Cond. No.          </th> <td>5.56e+08</td> 
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 5.56e+08. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="160">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>prediction2 <span class="op">=</span> model2.predict(train)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>np.sqrt(((train.money_made_inv <span class="op">-</span> prediction2)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="160">
+<pre><code>1597.2481443091262</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="161">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> (<span class="dv">8</span>,<span class="dv">6</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.scatterplot(x <span class="op">=</span> model2.fittedvalues, y<span class="op">=</span>model2.resid,color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [prediction2.<span class="bu">min</span>(),prediction2.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residuals'</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Regression%20Prediction%20Problem_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="162">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>test_run_2 <span class="op">=</span> pd.concat([test.<span class="bu">id</span>, prediction2], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>test_run_2 <span class="op">=</span> test_run_2.rename(columns <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'Predicted'</span>})</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>test_run_2.to_csv(<span class="st">'test_run_2.csv'</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="163">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model3 <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'money_made_inv~loan_amnt+I(loan_amnt**2)+out_prncp_inv+I(out_prncp_inv**2)+loan_amnt*out_prncp_inv'</span>, data <span class="op">=</span> train).fit()</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>model3.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="163">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>     <td>money_made_inv</td>  <th>  R-squared:         </th> <td>   0.961</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.961</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>2.859e+04</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Thu, 16 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>02:15:00</td>     <th>  Log-Likelihood:    </th> <td> -49659.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  5778</td>      <th>  AIC:               </th> <td>9.933e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  5772</td>      <th>  BIC:               </th> <td>9.937e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     5</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+             <td></td>                <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>               <td> -237.8517</td> <td>   57.854</td> <td>   -4.111</td> <td> 0.000</td> <td> -351.267</td> <td> -124.437</td>
+</tr>
+<tr>
+  <th>loan_amnt</th>               <td>    0.0557</td> <td>    0.008</td> <td>    7.190</td> <td> 0.000</td> <td>    0.040</td> <td>    0.071</td>
+</tr>
+<tr>
+  <th>I(loan_amnt ** 2)</th>       <td>-1.418e-06</td> <td> 2.16e-07</td> <td>   -6.575</td> <td> 0.000</td> <td>-1.84e-06</td> <td>-9.95e-07</td>
+</tr>
+<tr>
+  <th>out_prncp_inv</th>           <td>   -0.8668</td> <td>    0.008</td> <td> -109.783</td> <td> 0.000</td> <td>   -0.882</td> <td>   -0.851</td>
+</tr>
+<tr>
+  <th>I(out_prncp_inv ** 2)</th>   <td>-3.106e-05</td> <td>  4.9e-07</td> <td>  -63.397</td> <td> 0.000</td> <td> -3.2e-05</td> <td>-3.01e-05</td>
+</tr>
+<tr>
+  <th>loan_amnt:out_prncp_inv</th> <td> 2.599e-05</td> <td> 5.24e-07</td> <td>   49.622</td> <td> 0.000</td> <td>  2.5e-05</td> <td>  2.7e-05</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>3689.909</td> <th>  Durbin-Watson:     </th>  <td>   1.818</td> 
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>103942.228</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 2.599</td>  <th>  Prob(JB):          </th>  <td>    0.00</td> 
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>23.118</td>  <th>  Cond. No.          </th>  <td>1.82e+09</td> 
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.82e+09. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="164">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>prediction3 <span class="op">=</span> model3.predict(train)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>np.sqrt(((train.money_made_inv <span class="op">-</span> prediction3)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="164">
+<pre><code>1307.0801716989095</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="165">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> (<span class="dv">8</span>,<span class="dv">6</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.scatterplot(x <span class="op">=</span> model3.fittedvalues, y<span class="op">=</span>model3.resid,color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [prediction3.<span class="bu">min</span>(),prediction3.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residuals'</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Regression%20Prediction%20Problem_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="166">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> train[[<span class="st">'loan_amnt'</span>,<span class="st">'out_prncp_inv'</span>, <span class="st">'bc_util'</span>]]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.outliers_influence <span class="im">import</span> variance_inflation_factor</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tools.tools <span class="im">import</span> add_constant</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> add_constant(X)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>vif_data <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>vif_data[<span class="st">"feature"</span>] <span class="op">=</span> X.columns</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X.columns)):</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    vif_data.loc[i,<span class="st">'VIF'</span>] <span class="op">=</span> variance_inflation_factor(X.values, i)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(vif_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         feature       VIF
+0          const  7.478490
+1      loan_amnt  1.262996
+2  out_prncp_inv  1.267450
+3        bc_util  1.009829</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="167">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>index3 <span class="op">=</span> pd.Series(<span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>, prediction3.shape[<span class="dv">0</span>]<span class="op">+</span><span class="dv">1</span>)))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>test_run_3 <span class="op">=</span> pd.concat([index3, prediction3], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>test_run_3 <span class="op">=</span> test_run_3.rename(columns <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'id'</span>, <span class="dv">1</span>:<span class="st">'Predicted'</span>})</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>test_run_3.set_index(<span class="st">'id'</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>test_run_3.to_csv(<span class="st">'test_run_3.csv'</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="168">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>model4 <span class="op">=</span>  smf.ols(formula <span class="op">=</span> <span class="st">'money_made_inv ~ loan_amnt*out_prncp_inv + np.log(loan_amnt) + out_prncp_inv + I(out_prncp_inv**2)'</span>, data <span class="op">=</span> train).fit()</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>model4.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="168">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>     <td>money_made_inv</td>  <th>  R-squared:         </th> <td>   0.961</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.961</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>2.843e+04</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Thu, 16 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>02:15:01</td>     <th>  Log-Likelihood:    </th> <td> -49675.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  5778</td>      <th>  AIC:               </th> <td>9.936e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  5772</td>      <th>  BIC:               </th> <td>9.940e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     5</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+             <td></td>                <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>               <td>-1866.3827</td> <td>  587.018</td> <td>   -3.179</td> <td> 0.001</td> <td>-3017.158</td> <td> -715.607</td>
+</tr>
+<tr>
+  <th>loan_amnt</th>               <td>   -0.0107</td> <td>    0.006</td> <td>   -1.810</td> <td> 0.070</td> <td>   -0.022</td> <td>    0.001</td>
+</tr>
+<tr>
+  <th>out_prncp_inv</th>           <td>   -0.8509</td> <td>    0.007</td> <td> -113.992</td> <td> 0.000</td> <td>   -0.865</td> <td>   -0.836</td>
+</tr>
+<tr>
+  <th>loan_amnt:out_prncp_inv</th> <td> 2.523e-05</td> <td>  5.1e-07</td> <td>   49.450</td> <td> 0.000</td> <td> 2.42e-05</td> <td> 2.62e-05</td>
+</tr>
+<tr>
+  <th>np.log(loan_amnt)</th>       <td>  232.1376</td> <td>   71.073</td> <td>    3.266</td> <td> 0.001</td> <td>   92.807</td> <td>  371.468</td>
+</tr>
+<tr>
+  <th>I(out_prncp_inv ** 2)</th>   <td>-3.093e-05</td> <td> 4.91e-07</td> <td>  -62.984</td> <td> 0.000</td> <td>-3.19e-05</td> <td>   -3e-05</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>3681.467</td> <th>  Durbin-Watson:     </th>  <td>   1.820</td> 
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>104362.399</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 2.588</td>  <th>  Prob(JB):          </th>  <td>    0.00</td> 
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>23.167</td>  <th>  Cond. No.          </th>  <td>1.12e+10</td> 
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.12e+10. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="169">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>prediction4 <span class="op">=</span> model4.predict(train)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>np.sqrt(((train.money_made_inv <span class="op">-</span> prediction4)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="169">
+<pre><code>1310.7554969801963</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="170">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> (<span class="dv">8</span>,<span class="dv">6</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.scatterplot(x <span class="op">=</span> model4.fittedvalues, y<span class="op">=</span>model4.resid,color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [prediction4.<span class="bu">min</span>(),prediction4.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residuals'</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Regression%20Prediction%20Problem_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="171">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>test.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="171">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>id</th>
+      <th>acc_now_delinq</th>
+      <th>acc_open_past_24mths</th>
+      <th>addr_state</th>
+      <th>annual_inc</th>
+      <th>application_type</th>
+      <th>avg_cur_bal</th>
+      <th>bc_util</th>
+      <th>delinq_2yrs</th>
+      <th>delinq_amnt</th>
+      <th>...</th>
+      <th>out_prncp_inv</th>
+      <th>pub_rec</th>
+      <th>pub_rec_bankruptcies</th>
+      <th>purpose</th>
+      <th>sub_grade</th>
+      <th>term</th>
+      <th>tot_coll_amt</th>
+      <th>tot_cur_bal</th>
+      <th>total_rec_late_fee</th>
+      <th>verification_status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>10</td>
+      <td>NY</td>
+      <td>45000.0</td>
+      <td>Individual</td>
+      <td>3125</td>
+      <td>40.6</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>medical</td>
+      <td>D4</td>
+      <td>60 months</td>
+      <td>379</td>
+      <td>65615</td>
+      <td>0.0</td>
+      <td>Source Verified</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>0</td>
+      <td>1</td>
+      <td>NY</td>
+      <td>40000.0</td>
+      <td>Individual</td>
+      <td>1534</td>
+      <td>26.6</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>credit_card</td>
+      <td>B1</td>
+      <td>36 months</td>
+      <td>0</td>
+      <td>13806</td>
+      <td>0.0</td>
+      <td>Not Verified</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>FL</td>
+      <td>113000.0</td>
+      <td>Individual</td>
+      <td>49748</td>
+      <td>82.6</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>8141.22</td>
+      <td>0</td>
+      <td>0</td>
+      <td>debt_consolidation</td>
+      <td>A4</td>
+      <td>36 months</td>
+      <td>0</td>
+      <td>447731</td>
+      <td>0.0</td>
+      <td>Verified</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0</td>
+      <td>6</td>
+      <td>CA</td>
+      <td>105000.0</td>
+      <td>Individual</td>
+      <td>42642</td>
+      <td>81.8</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>credit_card</td>
+      <td>B1</td>
+      <td>36 months</td>
+      <td>0</td>
+      <td>469067</td>
+      <td>0.0</td>
+      <td>Not Verified</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>9</td>
+      <td>CA</td>
+      <td>80000.0</td>
+      <td>Individual</td>
+      <td>4766</td>
+      <td>52.2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>home_improvement</td>
+      <td>A1</td>
+      <td>36 months</td>
+      <td>0</td>
+      <td>100087</td>
+      <td>0.0</td>
+      <td>Not Verified</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 35 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="172">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> model3.predict(test)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> test.assign(Predicted <span class="op">=</span> pred)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>test.loc[test.out_prncp_inv <span class="op">==</span> <span class="dv">0</span>, <span class="st">'Predicted'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>test[[<span class="st">'Predicted'</span>, <span class="st">'id'</span>]].to_csv(<span class="st">"pred3.csv"</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="173">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> model2.predict(test)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> test.assign(Predicted <span class="op">=</span> pred)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>test.loc[test.out_prncp_inv <span class="op">==</span> <span class="dv">0</span>, <span class="st">'Predicted'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>test[[<span class="st">'Predicted'</span>, <span class="st">'id'</span>]].to_csv(<span class="st">"pred2.csv"</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="174">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> model4.predict(test)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> test.assign(Predicted <span class="op">=</span> pred)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>test.loc[test.out_prncp_inv <span class="op">==</span> <span class="dv">0</span>, <span class="st">'Predicted'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>test[[<span class="st">'Predicted'</span>, <span class="st">'id'</span>]].to_csv(<span class="st">"pred4.csv"</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="175">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> model1.predict(test)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> test.assign(Predicted <span class="op">=</span> pred)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>test.loc[test.out_prncp_inv <span class="op">==</span> <span class="dv">0</span>, <span class="st">'Predicted'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>test[[<span class="st">'Predicted'</span>, <span class="st">'id'</span>]].to_csv(<span class="st">"pred1.csv"</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="176">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>model5 <span class="op">=</span> smf.ols(<span class="st">'money_made_inv~out_prncp_inv+loan_amnt+loan_amnt*out_prncp_inv'</span>, data <span class="op">=</span> train.loc[train.out_prncp_inv <span class="op">!=</span> <span class="dv">0</span>]).fit()</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>model5.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="176">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>     <td>money_made_inv</td>  <th>  R-squared:         </th> <td>   0.949</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.949</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>1.508e+04</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Thu, 16 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>02:15:03</td>     <th>  Log-Likelihood:    </th> <td> -21846.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  2444</td>      <th>  AIC:               </th> <td>4.370e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  2440</td>      <th>  BIC:               </th> <td>4.372e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+             <td></td>                <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>               <td> -659.3843</td> <td>  106.184</td> <td>   -6.210</td> <td> 0.000</td> <td> -867.605</td> <td> -451.164</td>
+</tr>
+<tr>
+  <th>out_prncp_inv</th>           <td>   -1.1609</td> <td>    0.014</td> <td>  -81.320</td> <td> 0.000</td> <td>   -1.189</td> <td>   -1.133</td>
+</tr>
+<tr>
+  <th>loan_amnt</th>               <td>    0.3260</td> <td>    0.008</td> <td>   42.583</td> <td> 0.000</td> <td>    0.311</td> <td>    0.341</td>
+</tr>
+<tr>
+  <th>loan_amnt:out_prncp_inv</th> <td>-2.432e-06</td> <td> 4.32e-07</td> <td>   -5.632</td> <td> 0.000</td> <td>-3.28e-06</td> <td>-1.59e-06</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>1065.855</td> <th>  Durbin-Watson:     </th> <td>   1.754</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>9460.054</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 1.833</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>11.914</td>  <th>  Cond. No.          </th> <td>1.10e+09</td>
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.1e+09. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="177">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>prediction5 <span class="op">=</span> model5.predict(train)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>np.sqrt(((train.money_made_inv <span class="op">-</span> prediction5)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="177">
+<pre><code>4061.480994401893</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="178">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>model6 <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'money_made_inv~out_prncp_inv+loan_amnt'</span>, data <span class="op">=</span> train).fit()</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>model6.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="178">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>     <td>money_made_inv</td>  <th>  R-squared:         </th> <td>   0.934</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.934</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>4.056e+04</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Thu, 16 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>02:15:04</td>     <th>  Log-Likelihood:    </th> <td> -51214.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  5778</td>      <th>  AIC:               </th> <td>1.024e+05</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  5775</td>      <th>  BIC:               </th> <td>1.025e+05</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+        <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>     <td>  -14.9158</td> <td>   44.007</td> <td>   -0.339</td> <td> 0.735</td> <td> -101.187</td> <td>   71.355</td>
+</tr>
+<tr>
+  <th>out_prncp_inv</th> <td>   -0.8738</td> <td>    0.003</td> <td> -258.742</td> <td> 0.000</td> <td>   -0.880</td> <td>   -0.867</td>
+</tr>
+<tr>
+  <th>loan_amnt</th>     <td>    0.0293</td> <td>    0.003</td> <td>   10.724</td> <td> 0.000</td> <td>    0.024</td> <td>    0.035</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>3759.182</td> <th>  Durbin-Watson:     </th> <td>   1.839</td> 
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>58178.363</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 2.904</td>  <th>  Prob(JB):          </th> <td>    0.00</td> 
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>17.420</td>  <th>  Cond. No.          </th> <td>3.70e+04</td> 
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 3.7e+04. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="179">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>prediction6 <span class="op">=</span> model6.predict(train)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>np.sqrt(((train.money_made_inv <span class="op">-</span> prediction6)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="179">
+<pre><code>1710.6245757544348</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="180">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> model6.predict(test)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> test.assign(Predicted <span class="op">=</span> pred)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>test.loc[test.out_prncp_inv <span class="op">==</span> <span class="dv">0</span>, <span class="st">'Predicted'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>test[[<span class="st">'Predicted'</span>, <span class="st">'id'</span>]].to_csv(<span class="st">"pred6.csv"</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="181">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>model7 <span class="op">=</span>  smf.ols(formula <span class="op">=</span> <span class="st">'money_made_inv ~ out_prncp_inv'</span>, data <span class="op">=</span> train).fit()</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>model7.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="181">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>     <td>money_made_inv</td>  <th>  R-squared:         </th> <td>   0.932</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.932</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>7.943e+04</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Thu, 16 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>02:15:04</td>     <th>  Log-Likelihood:    </th> <td> -51271.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  5778</td>      <th>  AIC:               </th> <td>1.025e+05</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  5776</td>      <th>  BIC:               </th> <td>1.026e+05</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+        <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>     <td>  364.7665</td> <td>   26.395</td> <td>   13.819</td> <td> 0.000</td> <td>  313.022</td> <td>  416.511</td>
+</tr>
+<tr>
+  <th>out_prncp_inv</th> <td>   -0.8575</td> <td>    0.003</td> <td> -281.834</td> <td> 0.000</td> <td>   -0.863</td> <td>   -0.852</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>3957.138</td> <th>  Durbin-Watson:     </th> <td>   1.861</td> 
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>66554.964</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 3.093</td>  <th>  Prob(JB):          </th> <td>    0.00</td> 
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>18.433</td>  <th>  Cond. No.          </th> <td>1.01e+04</td> 
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.01e+04. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="182">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> pd.DataFrame({<span class="st">"id"</span>:test.iloc[:, <span class="dv">0</span>], <span class="st">"Predicted"</span>:model7.predict(test)})</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>test_zero <span class="op">=</span> <span class="bu">list</span>(test[test[<span class="st">"out_prncp_inv"</span>]<span class="op">==</span><span class="dv">0</span>].index)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>predictions.loc[test_zero, <span class="st">"Predicted"</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>predictions.to_csv(<span class="st">"pred7.csv"</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="reset" class="level2">
+<h2 class="anchored" data-anchor-id="reset">Reset</h2>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>train.corrwith(train.money_made_inv).sort_values(ascending <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>money_made_inv          1.000000
+bc_util                 0.095192
+pub_rec                 0.057876
+delinq_2yrs             0.049182
+int_rate                0.049109
+acc_open_past_24mths    0.048269
+total_rec_late_fee      0.033735
+num_tl_90g_dpd_24m      0.025438
+tot_coll_amt            0.024828
+pub_rec_bankruptcies    0.023218
+acc_now_delinq          0.021542
+num_tl_30dpd            0.015502
+num_tl_120dpd_2m        0.013539
+mort_acc                0.003898
+delinq_amnt             0.001890
+dti                     0.001325
+num_sats               -0.037346
+avg_cur_bal            -0.056990
+annual_inc             -0.064129
+tot_cur_bal            -0.077973
+id                     -0.299772
+loan_amnt              -0.403774
+out_prncp_inv          -0.965511
+dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>train.corrwith(train.acc_now_delinq).sort_values(ascending <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>acc_now_delinq          1.000000
+num_tl_30dpd            0.861804
+num_tl_120dpd_2m        0.358386
+delinq_2yrs             0.101060
+delinq_amnt             0.071018
+tot_cur_bal             0.059235
+num_tl_90g_dpd_24m      0.052064
+avg_cur_bal             0.036816
+num_sats                0.033272
+annual_inc              0.028007
+mort_acc                0.021778
+money_made_inv          0.021542
+acc_open_past_24mths    0.006014
+loan_amnt               0.004237
+int_rate                0.001562
+pub_rec                -0.005001
+total_rec_late_fee     -0.007519
+tot_coll_amt           -0.008221
+dti                    -0.009204
+pub_rec_bankruptcies   -0.014380
+out_prncp_inv          -0.023220
+id                     -0.034792
+bc_util                -0.043204
+dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>train.corrwith(train.avg_cur_bal).sort_values(ascending <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>avg_cur_bal             1.000000
+tot_cur_bal             0.831791
+mort_acc                0.456157
+loan_amnt               0.227892
+annual_inc              0.181443
+bc_util                 0.089133
+delinq_2yrs             0.069945
+out_prncp_inv           0.069300
+num_tl_120dpd_2m        0.048408
+acc_now_delinq          0.036816
+num_tl_90g_dpd_24m      0.026288
+num_tl_30dpd            0.023418
+total_rec_late_fee      0.018973
+delinq_amnt             0.014222
+tot_coll_amt            0.002623
+id                      0.001703
+pub_rec                -0.047823
+pub_rec_bankruptcies   -0.056577
+money_made_inv         -0.056990
+int_rate               -0.059838
+acc_open_past_24mths   -0.064451
+dti                    -0.107312
+num_sats               -0.109170
+dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>train.corrwith(train.delinq_2yrs).sort_values(ascending <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>delinq_2yrs             1.000000
+num_tl_90g_dpd_24m      0.683319
+acc_now_delinq          0.101060
+num_tl_30dpd            0.079751
+mort_acc                0.077464
+avg_cur_bal             0.069945
+tot_cur_bal             0.067538
+int_rate                0.053103
+delinq_amnt             0.050851
+money_made_inv          0.049182
+num_tl_120dpd_2m        0.034589
+num_sats                0.028381
+total_rec_late_fee      0.022252
+annual_inc              0.019626
+id                     -0.006772
+tot_coll_amt           -0.007342
+pub_rec                -0.016203
+bc_util                -0.019922
+loan_amnt              -0.035382
+out_prncp_inv          -0.039191
+dti                    -0.040028
+acc_open_past_24mths   -0.048187
+pub_rec_bankruptcies   -0.072919
+dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>train.corrwith(train.pub_rec).sort_values(ascending <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>pub_rec                 1.000000
+pub_rec_bankruptcies    0.652049
+int_rate                0.071043
+acc_open_past_24mths    0.071031
+money_made_inv          0.057876
+total_rec_late_fee      0.030878
+tot_coll_amt            0.015306
+delinq_amnt             0.001738
+mort_acc               -0.001259
+num_tl_30dpd           -0.003326
+acc_now_delinq         -0.005001
+annual_inc             -0.005172
+num_tl_120dpd_2m       -0.008998
+bc_util                -0.010145
+delinq_2yrs            -0.016203
+num_tl_90g_dpd_24m     -0.017544
+id                     -0.038177
+avg_cur_bal            -0.047823
+dti                    -0.048120
+num_sats               -0.049352
+loan_amnt              -0.051206
+out_prncp_inv          -0.054543
+tot_cur_bal            -0.070877
+dtype: float64</code></pre>
+</div>
+</div>
+<section id="just-money_made_inv-with-out_prncp_inv-where-out_prncp_inv-is-not-0" class="level3">
+<h3 class="anchored" data-anchor-id="just-money_made_inv-with-out_prncp_inv-where-out_prncp_inv-is-not-0">Just money_made_inv with out_prncp_inv where out_prncp_inv is not 0</h3>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> sm</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.outliers_influence <span class="im">import</span> variance_inflation_factor</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tools.tools <span class="im">import</span> add_constant</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler </span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge, RidgeCV, Lasso, LassoCV</span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> product</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, auc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.read_csv(<span class="st">'train.csv'</span>)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> pd.read_csv(<span class="st">'test.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only getting observations with out_prncp_inv not equal to 0</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>train_1 <span class="op">=</span> train.loc[train.out_prncp_inv <span class="op">!=</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>train_1.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>id</th>
+      <th>money_made_inv</th>
+      <th>acc_now_delinq</th>
+      <th>acc_open_past_24mths</th>
+      <th>addr_state</th>
+      <th>annual_inc</th>
+      <th>application_type</th>
+      <th>avg_cur_bal</th>
+      <th>bc_util</th>
+      <th>delinq_2yrs</th>
+      <th>...</th>
+      <th>out_prncp_inv</th>
+      <th>pub_rec</th>
+      <th>pub_rec_bankruptcies</th>
+      <th>purpose</th>
+      <th>sub_grade</th>
+      <th>term</th>
+      <th>tot_coll_amt</th>
+      <th>tot_cur_bal</th>
+      <th>total_rec_late_fee</th>
+      <th>verification_status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3819</td>
+      <td>-2787.38</td>
+      <td>0</td>
+      <td>2</td>
+      <td>CT</td>
+      <td>21120.0</td>
+      <td>Individual</td>
+      <td>3662</td>
+      <td>86.1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>3828.54</td>
+      <td>0</td>
+      <td>0</td>
+      <td>debt_consolidation</td>
+      <td>C1</td>
+      <td>36 months</td>
+      <td>0</td>
+      <td>65921</td>
+      <td>0.0</td>
+      <td>Verified</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3822</td>
+      <td>-7951.97</td>
+      <td>0</td>
+      <td>1</td>
+      <td>NJ</td>
+      <td>66976.0</td>
+      <td>Individual</td>
+      <td>1638</td>
+      <td>77.4</td>
+      <td>0</td>
+      <td>...</td>
+      <td>9665.27</td>
+      <td>0</td>
+      <td>0</td>
+      <td>debt_consolidation</td>
+      <td>C1</td>
+      <td>60 months</td>
+      <td>0</td>
+      <td>9830</td>
+      <td>0.0</td>
+      <td>Source Verified</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3823</td>
+      <td>-8058.76</td>
+      <td>0</td>
+      <td>2</td>
+      <td>MO</td>
+      <td>125000.0</td>
+      <td>Individual</td>
+      <td>577</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>11358.24</td>
+      <td>0</td>
+      <td>0</td>
+      <td>debt_consolidation</td>
+      <td>A2</td>
+      <td>60 months</td>
+      <td>0</td>
+      <td>6924</td>
+      <td>0.0</td>
+      <td>Source Verified</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>3827</td>
+      <td>-21127.76</td>
+      <td>0</td>
+      <td>8</td>
+      <td>IL</td>
+      <td>75500.0</td>
+      <td>Individual</td>
+      <td>7046</td>
+      <td>48.1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>21534.57</td>
+      <td>1</td>
+      <td>1</td>
+      <td>debt_consolidation</td>
+      <td>B3</td>
+      <td>36 months</td>
+      <td>0</td>
+      <td>155020</td>
+      <td>0.0</td>
+      <td>Source Verified</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>3835</td>
+      <td>-12572.07</td>
+      <td>0</td>
+      <td>4</td>
+      <td>GA</td>
+      <td>42000.0</td>
+      <td>Individual</td>
+      <td>1372</td>
+      <td>44.6</td>
+      <td>0</td>
+      <td>...</td>
+      <td>13186.35</td>
+      <td>0</td>
+      <td>0</td>
+      <td>other</td>
+      <td>B2</td>
+      <td>36 months</td>
+      <td>0</td>
+      <td>13722</td>
+      <td>0.0</td>
+      <td>Not Verified</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 36 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>train_1.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>Index(['id', 'money_made_inv', 'acc_now_delinq', 'acc_open_past_24mths',
+       'addr_state', 'annual_inc', 'application_type', 'avg_cur_bal',
+       'bc_util', 'delinq_2yrs', 'delinq_amnt', 'dti', 'earliest_cr_line',
+       'emp_length', 'emp_title', 'grade', 'home_ownership',
+       'initial_list_status', 'int_rate', 'last_credit_pull_d', 'loan_amnt',
+       'mort_acc', 'num_sats', 'num_tl_120dpd_2m', 'num_tl_90g_dpd_24m',
+       'num_tl_30dpd', 'out_prncp_inv', 'pub_rec', 'pub_rec_bankruptcies',
+       'purpose', 'sub_grade', 'term', 'tot_coll_amt', 'tot_cur_bal',
+       'total_rec_late_fee', 'verification_status'],
+      dtype='object')</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>model10 <span class="op">=</span>  sm.ols(formula <span class="op">=</span> <span class="st">'money_made_inv ~ out_prncp_inv'</span>, data <span class="op">=</span> train_1).fit()</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>model10.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>     <td>money_made_inv</td>  <th>  R-squared:         </th> <td>   0.906</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.906</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>2.357e+04</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Mon, 20 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>01:12:17</td>     <th>  Log-Likelihood:    </th> <td> -22588.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  2444</td>      <th>  AIC:               </th> <td>4.518e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  2442</td>      <th>  BIC:               </th> <td>4.519e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+        <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>     <td> 1643.1866</td> <td>   81.018</td> <td>   20.282</td> <td> 0.000</td> <td> 1484.315</td> <td> 1802.058</td>
+</tr>
+<tr>
+  <th>out_prncp_inv</th> <td>   -0.9324</td> <td>    0.006</td> <td> -153.514</td> <td> 0.000</td> <td>   -0.944</td> <td>   -0.920</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>1071.141</td> <th>  Durbin-Watson:     </th> <td>   1.892</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>4991.806</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 2.108</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td> 8.590</td>  <th>  Cond. No.          </th> <td>2.14e+04</td>
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 2.14e+04. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> pd.DataFrame({<span class="st">"id"</span>:test.iloc[:, <span class="dv">0</span>], <span class="st">"Predicted"</span>:model10.predict(test)})</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>test_zero <span class="op">=</span> <span class="bu">list</span>(test[test[<span class="st">"out_prncp_inv"</span>]<span class="op">==</span><span class="dv">0</span>].index)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>predictions.loc[test_zero, <span class="st">"Predicted"</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>predictions.to_csv(<span class="st">"pred10.csv"</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="forward-selection" class="level3">
+<h3 class="anchored" data-anchor-id="forward-selection">Forward Selection</h3>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>model11 <span class="op">=</span> sm.ols(<span class="st">'money_made_inv ~ acc_now_delinq + acc_open_past_24mths + annual_inc +</span><span class="ch">\</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="st">avg_cur_bal + bc_util + delinq_2yrs + delinq_amnt + dti +</span><span class="ch">\</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="st">int_rate + loan_amnt + mort_acc + num_sats + </span><span class="ch">\</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="st">num_tl_120dpd_2m + num_tl_90g_dpd_24m + num_tl_30dpd + out_prncp_inv + pub_rec + pub_rec_bankruptcies +</span><span class="ch">\</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="st">tot_coll_amt + tot_cur_bal + total_rec_late_fee'</span>, data <span class="op">=</span> train_1).fit()</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>model11.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>     <td>money_made_inv</td>  <th>  R-squared:         </th> <td>   0.971</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.971</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   4085.</td> 
+</tr>
+<tr>
+  <th>Date:</th>             <td>Mon, 20 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>01:12:18</td>     <th>  Log-Likelihood:    </th> <td> -21144.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  2444</td>      <th>  AIC:               </th> <td>4.233e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  2423</td>      <th>  BIC:               </th> <td>4.245e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>    20</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+            <td></td>              <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>            <td>-3438.5303</td> <td>  125.218</td> <td>  -27.460</td> <td> 0.000</td> <td>-3684.075</td> <td>-3192.985</td>
+</tr>
+<tr>
+  <th>acc_now_delinq</th>       <td>  227.1873</td> <td> 1397.924</td> <td>    0.163</td> <td> 0.871</td> <td>-2514.062</td> <td> 2968.437</td>
+</tr>
+<tr>
+  <th>acc_open_past_24mths</th> <td>  -15.2446</td> <td>   11.165</td> <td>   -1.365</td> <td> 0.172</td> <td>  -37.139</td> <td>    6.650</td>
+</tr>
+<tr>
+  <th>annual_inc</th>           <td>    0.0001</td> <td>    0.000</td> <td>    0.919</td> <td> 0.358</td> <td>   -0.000</td> <td>    0.000</td>
+</tr>
+<tr>
+  <th>avg_cur_bal</th>          <td>    0.0055</td> <td>    0.004</td> <td>    1.492</td> <td> 0.136</td> <td>   -0.002</td> <td>    0.013</td>
+</tr>
+<tr>
+  <th>bc_util</th>              <td>   -1.2449</td> <td>    1.112</td> <td>   -1.119</td> <td> 0.263</td> <td>   -3.426</td> <td>    0.936</td>
+</tr>
+<tr>
+  <th>delinq_2yrs</th>          <td>   31.3879</td> <td>   42.108</td> <td>    0.745</td> <td> 0.456</td> <td>  -51.183</td> <td>  113.959</td>
+</tr>
+<tr>
+  <th>delinq_amnt</th>          <td>   -0.1600</td> <td>    0.135</td> <td>   -1.187</td> <td> 0.235</td> <td>   -0.424</td> <td>    0.104</td>
+</tr>
+<tr>
+  <th>dti</th>                  <td>   -0.8539</td> <td>    3.378</td> <td>   -0.253</td> <td> 0.800</td> <td>   -7.477</td> <td>    5.770</td>
+</tr>
+<tr>
+  <th>int_rate</th>             <td>  261.1851</td> <td>    6.618</td> <td>   39.465</td> <td> 0.000</td> <td>  248.207</td> <td>  274.163</td>
+</tr>
+<tr>
+  <th>loan_amnt</th>            <td>    0.3150</td> <td>    0.005</td> <td>   58.246</td> <td> 0.000</td> <td>    0.304</td> <td>    0.326</td>
+</tr>
+<tr>
+  <th>mort_acc</th>             <td>   75.5638</td> <td>   18.195</td> <td>    4.153</td> <td> 0.000</td> <td>   39.885</td> <td>  111.243</td>
+</tr>
+<tr>
+  <th>num_sats</th>             <td>   13.9918</td> <td>    7.243</td> <td>    1.932</td> <td> 0.054</td> <td>   -0.212</td> <td>   28.195</td>
+</tr>
+<tr>
+  <th>num_tl_120dpd_2m</th>     <td> 6.599e-13</td> <td> 1.12e-12</td> <td>    0.588</td> <td> 0.557</td> <td>-1.54e-12</td> <td> 2.86e-12</td>
+</tr>
+<tr>
+  <th>num_tl_90g_dpd_24m</th>   <td>  -52.8971</td> <td>   81.215</td> <td>   -0.651</td> <td> 0.515</td> <td> -212.156</td> <td>  106.361</td>
+</tr>
+<tr>
+  <th>num_tl_30dpd</th>         <td>-1154.0400</td> <td> 1528.729</td> <td>   -0.755</td> <td> 0.450</td> <td>-4151.791</td> <td> 1843.711</td>
+</tr>
+<tr>
+  <th>out_prncp_inv</th>        <td>   -1.2526</td> <td>    0.006</td> <td> -202.521</td> <td> 0.000</td> <td>   -1.265</td> <td>   -1.240</td>
+</tr>
+<tr>
+  <th>pub_rec</th>              <td>  165.0480</td> <td>   86.228</td> <td>    1.914</td> <td> 0.056</td> <td>   -4.040</td> <td>  334.136</td>
+</tr>
+<tr>
+  <th>pub_rec_bankruptcies</th> <td> -182.9768</td> <td>  130.198</td> <td>   -1.405</td> <td> 0.160</td> <td> -438.288</td> <td>   72.334</td>
+</tr>
+<tr>
+  <th>tot_coll_amt</th>         <td>   -0.0273</td> <td>    0.021</td> <td>   -1.306</td> <td> 0.192</td> <td>   -0.068</td> <td>    0.014</td>
+</tr>
+<tr>
+  <th>tot_cur_bal</th>          <td>   -0.0008</td> <td>    0.000</td> <td>   -2.000</td> <td> 0.046</td> <td>   -0.002</td> <td>-1.56e-05</td>
+</tr>
+<tr>
+  <th>total_rec_late_fee</th>   <td>    6.8038</td> <td>    1.744</td> <td>    3.901</td> <td> 0.000</td> <td>    3.384</td> <td>   10.224</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>617.003</td> <th>  Durbin-Watson:     </th> <td>   1.965</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>5307.926</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 0.945</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 9.968</td>  <th>  Cond. No.          </th> <td>1.22e+22</td>
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The smallest eigenvalue is 1.15e-30. This might indicate that there are<br>strong multicollinearity problems or that the design matrix is singular.
+</div>
+</div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating a set of predictors from which we need to find the best subset of predictors</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> train_1[[<span class="st">'acc_now_delinq'</span>, <span class="st">'acc_open_past_24mths'</span>, <span class="st">'annual_inc'</span>, <span class="st">'avg_cur_bal'</span>,</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">'bc_util'</span>, <span class="st">'delinq_2yrs'</span>, <span class="st">'delinq_amnt'</span>, <span class="st">'dti'</span>, <span class="st">'int_rate'</span>, <span class="st">'loan_amnt'</span>,</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>       <span class="st">'mort_acc'</span>, <span class="st">'num_sats'</span>, <span class="st">'num_tl_120dpd_2m'</span>, <span class="st">'num_tl_90g_dpd_24m'</span>,</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>       <span class="st">'num_tl_30dpd'</span>, <span class="st">'out_prncp_inv'</span>, <span class="st">'pub_rec'</span>, <span class="st">'pub_rec_bankruptcies'</span>,</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>       <span class="st">'tot_coll_amt'</span>, <span class="st">'tot_cur_bal'</span>, <span class="st">'total_rec_late_fee'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to develop a model based on all predictors in predictor_subset</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> processSubset(predictor_subset):</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fit model on feature_set and calculate R-squared</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> sm.ols(<span class="st">'money_made_inv ~'</span> <span class="op">+</span> <span class="st">'+'</span>.join(predictor_subset),data <span class="op">=</span> train_1).fit()</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>    Rsquared <span class="op">=</span> model.rsquared</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">"model"</span>:model, <span class="st">"Rsquared"</span>:Rsquared}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to find the best predictor out of p-k predictors and add it to the model containing the k predictors</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(predictors):</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pull out predictors we still need to process</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>    remaining_predictors <span class="op">=</span> [p <span class="cf">for</span> p <span class="kw">in</span> X.columns <span class="cf">if</span> p <span class="kw">not</span> <span class="kw">in</span> predictors]</span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>    tic <span class="op">=</span> time.time()</span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> []</span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> p <span class="kw">in</span> remaining_predictors:</span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>        results.append(processSubset(predictors<span class="op">+</span>[p]))</span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wrap everything up in a nice dataframe</span></span>
+<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a>    models <span class="op">=</span> pd.DataFrame(results)</span>
+<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Choose the model with the highest RSS</span></span>
+<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a>    best_model <span class="op">=</span> models.loc[models[<span class="st">'Rsquared'</span>].argmax()]</span>
+<span id="cb66-19"><a href="#cb66-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb66-20"><a href="#cb66-20" aria-hidden="true" tabindex="-1"></a>    toc <span class="op">=</span> time.time()</span>
+<span id="cb66-21"><a href="#cb66-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Processed "</span>, models.shape[<span class="dv">0</span>], <span class="st">"models on"</span>, <span class="bu">len</span>(predictors)<span class="op">+</span><span class="dv">1</span>, <span class="st">"predictors in"</span>, (toc<span class="op">-</span>tic), <span class="st">"seconds."</span>)</span>
+<span id="cb66-22"><a href="#cb66-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb66-23"><a href="#cb66-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return the best model, along with some other useful information about the model</span></span>
+<span id="cb66-24"><a href="#cb66-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> best_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward_selection():</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    models_best <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"Rsquared"</span>, <span class="st">"model"</span>])</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>    tic <span class="op">=</span> time.time()</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>    predictors <span class="op">=</span> []</span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,<span class="bu">len</span>(X.columns)<span class="op">+</span><span class="dv">1</span>):    </span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>        models_best.loc[i] <span class="op">=</span> forward(predictors)</span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>        predictors <span class="op">=</span> <span class="bu">list</span>(models_best.loc[i][<span class="st">"model"</span>].params.index[<span class="dv">1</span>:])</span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>    toc <span class="op">=</span> time.time()</span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Total elapsed time:"</span>, (toc<span class="op">-</span>tic), <span class="st">"seconds."</span>)</span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> models_best</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>models_best <span class="op">=</span> forward_selection()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Processed  21 models on 1 predictors in 0.17510700225830078 seconds.
+Processed  20 models on 2 predictors in 0.2707488536834717 seconds.
+Processed  19 models on 3 predictors in 0.33813905715942383 seconds.
+Processed  18 models on 4 predictors in 0.31990504264831543 seconds.
+Processed  17 models on 5 predictors in 0.2809481620788574 seconds.
+Processed  16 models on 6 predictors in 0.3169081211090088 seconds.
+Processed  15 models on 7 predictors in 0.3102560043334961 seconds.
+Processed  14 models on 8 predictors in 0.3054239749908447 seconds.
+Processed  13 models on 9 predictors in 0.3014390468597412 seconds.
+Processed  12 models on 10 predictors in 0.30181121826171875 seconds.
+Processed  11 models on 11 predictors in 0.29781007766723633 seconds.
+Processed  10 models on 12 predictors in 0.2933471202850342 seconds.
+Processed  9 models on 13 predictors in 0.27222681045532227 seconds.
+Processed  8 models on 14 predictors in 0.26680493354797363 seconds.
+Processed  7 models on 15 predictors in 0.22660398483276367 seconds.
+Processed  6 models on 16 predictors in 0.21964001655578613 seconds.
+Processed  5 models on 17 predictors in 0.18480587005615234 seconds.
+Processed  4 models on 18 predictors in 0.1577160358428955 seconds.
+Processed  3 models on 19 predictors in 0.11995291709899902 seconds.
+Processed  2 models on 20 predictors in 0.08578801155090332 seconds.
+Processed  1 models on 21 predictors in 0.04550290107727051 seconds.
+Total elapsed time: 5.174642086029053 seconds.</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> best_sub_plots():</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">20</span>,<span class="dv">10</span>))</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    plt.rcParams.update({<span class="st">'font.size'</span>: <span class="dv">18</span>, <span class="st">'lines.markersize'</span>: <span class="dv">10</span>})</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set up a 2x2 grid so we can look at 4 plots at once</span></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># We will now plot a red dot to indicate the model with the largest adjusted R^2 statistic.</span></span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The argmax() function can be used to identify the location of the maximum point of a vector</span></span>
+<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a>    plt.plot(models_best[<span class="st">"Rsquared"</span>])</span>
+<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'# Predictors'</span>)</span>
+<span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Rsquared'</span>)</span>
+<span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-14"><a href="#cb70-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># We will now plot a red dot to indicate the model with the largest adjusted R^2 statistic.</span></span>
+<span id="cb70-15"><a href="#cb70-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The argmax() function can be used to identify the location of the maximum point of a vector</span></span>
+<span id="cb70-16"><a href="#cb70-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a>    rsquared_adj <span class="op">=</span> models_best.<span class="bu">apply</span>(<span class="kw">lambda</span> row: row[<span class="dv">1</span>].rsquared_adj, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb70-18"><a href="#cb70-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-19"><a href="#cb70-19" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb70-20"><a href="#cb70-20" aria-hidden="true" tabindex="-1"></a>    plt.plot(rsquared_adj)</span>
+<span id="cb70-21"><a href="#cb70-21" aria-hidden="true" tabindex="-1"></a>    plt.plot(<span class="dv">1</span><span class="op">+</span>rsquared_adj.argmax(), rsquared_adj.<span class="bu">max</span>(), <span class="st">"or"</span>)</span>
+<span id="cb70-22"><a href="#cb70-22" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'# Predictors'</span>)</span>
+<span id="cb70-23"><a href="#cb70-23" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'adjusted rsquared'</span>)</span>
+<span id="cb70-24"><a href="#cb70-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-25"><a href="#cb70-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># We'll do the same for AIC and BIC, this time looking for the models with the SMALLEST statistic</span></span>
+<span id="cb70-26"><a href="#cb70-26" aria-hidden="true" tabindex="-1"></a>    aic <span class="op">=</span> models_best.<span class="bu">apply</span>(<span class="kw">lambda</span> row: row[<span class="dv">1</span>].aic, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb70-27"><a href="#cb70-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-28"><a href="#cb70-28" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb70-29"><a href="#cb70-29" aria-hidden="true" tabindex="-1"></a>    plt.plot(aic)</span>
+<span id="cb70-30"><a href="#cb70-30" aria-hidden="true" tabindex="-1"></a>    plt.plot(<span class="dv">1</span><span class="op">+</span>aic.argmin(), aic.<span class="bu">min</span>(), <span class="st">"or"</span>)</span>
+<span id="cb70-31"><a href="#cb70-31" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'# Predictors'</span>)</span>
+<span id="cb70-32"><a href="#cb70-32" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'AIC'</span>)</span>
+<span id="cb70-33"><a href="#cb70-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-34"><a href="#cb70-34" aria-hidden="true" tabindex="-1"></a>    bic <span class="op">=</span> models_best.<span class="bu">apply</span>(<span class="kw">lambda</span> row: row[<span class="dv">1</span>].bic, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb70-35"><a href="#cb70-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-36"><a href="#cb70-36" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
+<span id="cb70-37"><a href="#cb70-37" aria-hidden="true" tabindex="-1"></a>    plt.plot(bic)</span>
+<span id="cb70-38"><a href="#cb70-38" aria-hidden="true" tabindex="-1"></a>    plt.plot(<span class="dv">1</span><span class="op">+</span>bic.argmin(), bic.<span class="bu">min</span>(), <span class="st">"or"</span>)</span>
+<span id="cb70-39"><a href="#cb70-39" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'# Predictors'</span>)</span>
+<span id="cb70-40"><a href="#cb70-40" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'BIC'</span>)</span>
+<span id="cb70-41"><a href="#cb70-41" aria-hidden="true" tabindex="-1"></a>best_sub_plots()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Regression%20Prediction%20Problem_files/figure-html/cell-63-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>best_fwd_reg_model <span class="op">=</span> models_best[<span class="st">'model'</span>][<span class="dv">5</span>]</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>best_fwd_reg_model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>     <td>money_made_inv</td>  <th>  R-squared:         </th> <td>   0.971</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.971</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>1.631e+04</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Mon, 20 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>01:13:08</td>     <th>  Log-Likelihood:    </th> <td> -21153.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  2444</td>      <th>  AIC:               </th> <td>4.232e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  2438</td>      <th>  BIC:               </th> <td>4.235e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     5</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+           <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>          <td>-3388.9167</td> <td>   92.160</td> <td>  -36.772</td> <td> 0.000</td> <td>-3569.637</td> <td>-3208.196</td>
+</tr>
+<tr>
+  <th>out_prncp_inv</th>      <td>   -1.2523</td> <td>    0.006</td> <td> -205.928</td> <td> 0.000</td> <td>   -1.264</td> <td>   -1.240</td>
+</tr>
+<tr>
+  <th>loan_amnt</th>          <td>    0.3150</td> <td>    0.005</td> <td>   59.782</td> <td> 0.000</td> <td>    0.305</td> <td>    0.325</td>
+</tr>
+<tr>
+  <th>int_rate</th>           <td>  257.2839</td> <td>    5.973</td> <td>   43.073</td> <td> 0.000</td> <td>  245.571</td> <td>  268.997</td>
+</tr>
+<tr>
+  <th>mort_acc</th>           <td>   63.6705</td> <td>   15.267</td> <td>    4.170</td> <td> 0.000</td> <td>   33.733</td> <td>   93.608</td>
+</tr>
+<tr>
+  <th>total_rec_late_fee</th> <td>    7.1305</td> <td>    1.736</td> <td>    4.109</td> <td> 0.000</td> <td>    3.727</td> <td>   10.534</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>619.456</td> <th>  Durbin-Watson:     </th> <td>   1.957</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>5204.546</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 0.956</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 9.888</td>  <th>  Cond. No.          </th> <td>7.46e+04</td>
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 7.46e+04. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>best_fwd_reg_model <span class="op">=</span> models_best[<span class="st">'model'</span>][<span class="dv">7</span>]</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>best_fwd_reg_model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>     <td>money_made_inv</td>  <th>  R-squared:         </th> <td>   0.971</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.971</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>1.166e+04</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Mon, 20 Mar 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>01:13:08</td>     <th>  Log-Likelihood:    </th> <td> -21151.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  2444</td>      <th>  AIC:               </th> <td>4.232e+04</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  2436</td>      <th>  BIC:               </th> <td>4.236e+04</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     7</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+           <td></td>             <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>          <td>-3378.5861</td> <td>   92.426</td> <td>  -36.554</td> <td> 0.000</td> <td>-3559.828</td> <td>-3197.344</td>
+</tr>
+<tr>
+  <th>out_prncp_inv</th>      <td>   -1.2529</td> <td>    0.006</td> <td> -205.930</td> <td> 0.000</td> <td>   -1.265</td> <td>   -1.241</td>
+</tr>
+<tr>
+  <th>loan_amnt</th>          <td>    0.3162</td> <td>    0.005</td> <td>   59.447</td> <td> 0.000</td> <td>    0.306</td> <td>    0.327</td>
+</tr>
+<tr>
+  <th>int_rate</th>           <td>  257.2003</td> <td>    5.971</td> <td>   43.073</td> <td> 0.000</td> <td>  245.491</td> <td>  268.910</td>
+</tr>
+<tr>
+  <th>mort_acc</th>           <td>   78.1451</td> <td>   17.969</td> <td>    4.349</td> <td> 0.000</td> <td>   42.908</td> <td>  113.382</td>
+</tr>
+<tr>
+  <th>total_rec_late_fee</th> <td>    7.1352</td> <td>    1.735</td> <td>    4.113</td> <td> 0.000</td> <td>    3.733</td> <td>   10.537</td>
+</tr>
+<tr>
+  <th>tot_cur_bal</th>        <td>   -0.0003</td> <td>    0.000</td> <td>   -1.425</td> <td> 0.154</td> <td>   -0.001</td> <td>    0.000</td>
+</tr>
+<tr>
+  <th>num_tl_30dpd</th>       <td> -881.3205</td> <td>  623.359</td> <td>   -1.414</td> <td> 0.158</td> <td>-2103.688</td> <td>  341.047</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>619.988</td> <th>  Durbin-Watson:     </th> <td>   1.955</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>5226.848</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 0.956</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 9.904</td>  <th>  Cond. No.          </th> <td>5.27e+06</td>
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 5.27e+06. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+</section>
+<section id="k-fold-cross-validation" class="level3">
+<h3 class="anchored" data-anchor-id="k-fold-cross-validation">K-fold Cross Validation</h3>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>predictor_set <span class="op">=</span> [<span class="st">'out_prncp_inv'</span>,<span class="st">'loan_amnt'</span>,<span class="st">'int_rate'</span>,<span class="st">'mort_acc'</span>, <span class="st">'total_rec_late_fee'</span>]</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> product</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> np.arange(<span class="dv">0</span>,<span class="dv">5</span>)</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>polynomial_transformations <span class="op">=</span> pd.DataFrame(product(values, repeat<span class="op">=</span><span class="dv">5</span>), columns<span class="op">=</span>predictor_set).loc[<span class="dv">1</span>:,]</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>polynomial_transformations.loc[:,<span class="st">'sum_degree'</span>] <span class="op">=</span> (polynomial_transformations).astype(<span class="bu">int</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>polynomial_transformations.loc[:,<span class="st">'count_zeros'</span>] <span class="op">=</span> (polynomial_transformations <span class="op">==</span> <span class="dv">0</span>).astype(<span class="bu">int</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>polynomial_transformations.sort_values(by <span class="op">=</span> [<span class="st">'count_zeros'</span>, <span class="st">'sum_degree'</span>], ascending<span class="op">=</span>[<span class="va">False</span>, <span class="va">True</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>polynomial_transformations.drop(columns <span class="op">=</span> [<span class="st">'count_zeros'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>polynomial_transformations.reset_index(inplace <span class="op">=</span> <span class="va">True</span>, drop <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Setting the seed as we are shuffling the data before splitting it into K-folds</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">123</span>)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Shuffling the training set before creating K folds</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> train_1.sample(frac<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">7</span> <span class="co">#5-fold cross validation</span></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>fold_size <span class="op">=</span> np.<span class="bu">round</span>(train_1.shape[<span class="dv">0</span>]<span class="op">/</span>k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> KFoldCV(selected_interactions, interaction_being_tested):</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>    cv_vals <span class="op">=</span> []</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ii <span class="kw">in</span> <span class="bu">range</span>(k):</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>        val_indices <span class="op">=</span> np.arange(ii<span class="op">*</span>(fold_size),(ii<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>fold_size)</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>        val_set <span class="op">=</span> train_1.iloc[val_indices, :]</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>        train_set <span class="op">=</span> train_1.drop(train_1.iloc[val_indices, :].index.tolist())</span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> sm.ols(<span class="st">'money_made_inv ~ out_prncp_inv + loan_amnt + int_rate + mort_acc +</span><span class="ch">\</span></span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a><span class="st">        total_rec_late_fee'</span> <span class="op">+</span> selected_interactions <span class="op">+</span> interaction_being_tested, data <span class="op">=</span> train_set).fit()</span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>        pred_price <span class="op">=</span> model.predict(val_set)     </span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>        cv_vals.append(np.sqrt(((val_set[<span class="st">'money_made_inv'</span>]<span class="op">-</span>pred_price)<span class="op">**</span><span class="dv">2</span>).mean()))</span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (np.mean(cv_vals))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5-fold cross validation RMSE of the initial model with the 4 predictors of degree one</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>cv_previous_model <span class="op">=</span> KFoldCV(selected_interactions <span class="op">=</span> <span class="st">''</span>, interaction_being_tested <span class="op">=</span> <span class="st">''</span>)</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>interaction_being_tested <span class="op">=</span> <span class="st">'+'</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>selected_interactions <span class="op">=</span> <span class="st">''</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Considering interactions of degree 'd' = 2 to 12</span></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> np.arange(<span class="dv">2</span>,<span class="dv">13</span>):</span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Selecting interaction terms of degree = 'd'</span></span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>    degree_set <span class="op">=</span> polynomial_transformations.loc[polynomial_transformations.sum_degree<span class="op">==</span>d, :]</span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initializing objects to store the interactions of degree 'd' that reduce the</span></span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5-fold cross validation RMSEs as compared to the previous model</span></span>
+<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>    interactions_that_reduce_KfoldCV <span class="op">=</span> []<span class="op">;</span> cv_degree <span class="op">=</span> []<span class="op">;</span> </span>
+<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Creating another DataFrame that will consist of the updated set of interactions of degree 'd' to be considered</span></span>
+<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># as interactions that do not reduce the 5-fold cross validation RMSE will be discarded</span></span>
+<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a>    degree_set_updated <span class="op">=</span> pd.DataFrame(columns <span class="op">=</span> degree_set.columns)</span>
+<span id="cb76-19"><a href="#cb76-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb76-20"><a href="#cb76-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Continue adding interactions of degree 'd' in the model until no interactions reduce </span></span>
+<span id="cb76-21"><a href="#cb76-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the 5-fold cross-validation RMSE</span></span>
+<span id="cb76-22"><a href="#cb76-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb76-23"><a href="#cb76-23" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb76-24"><a href="#cb76-24" aria-hidden="true" tabindex="-1"></a>        <span class="co">#Iterating over all possible interactions of degree 'd'</span></span>
+<span id="cb76-25"><a href="#cb76-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> index, row <span class="kw">in</span> degree_set.iterrows():</span>
+<span id="cb76-26"><a href="#cb76-26" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb76-27"><a href="#cb76-27" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Creating the formula expression for the interaction term to be tested</span></span>
+<span id="cb76-28"><a href="#cb76-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> predictor <span class="kw">in</span> predictor_set:</span>
+<span id="cb76-29"><a href="#cb76-29" aria-hidden="true" tabindex="-1"></a>                interaction_being_tested <span class="op">=</span> interaction_being_tested <span class="op">+</span> (<span class="st">'I('</span><span class="op">+</span>predictor <span class="op">+</span><span class="st">'**'</span> <span class="op">+\</span></span>
+<span id="cb76-30"><a href="#cb76-30" aria-hidden="true" tabindex="-1"></a>                                         <span class="bu">str</span>(row[predictor]) <span class="op">+</span> <span class="st">')*'</span> <span class="cf">if</span> row[predictor]<span class="op">&gt;</span><span class="dv">1</span> <span class="cf">else</span><span class="op">\</span></span>
+<span id="cb76-31"><a href="#cb76-31" aria-hidden="true" tabindex="-1"></a>                                               predictor <span class="op">+</span> <span class="st">'*'</span> <span class="cf">if</span> row[predictor]<span class="op">==</span><span class="dv">1</span> <span class="cf">else</span> <span class="st">''</span>)</span>
+<span id="cb76-32"><a href="#cb76-32" aria-hidden="true" tabindex="-1"></a>            interaction_being_tested <span class="op">=</span> interaction_being_tested[:<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb76-33"><a href="#cb76-33" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb76-34"><a href="#cb76-34" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Call the function 'KFoldCV' to find out the 5-fold cross validation error on adding the </span></span>
+<span id="cb76-35"><a href="#cb76-35" aria-hidden="true" tabindex="-1"></a>            <span class="co"># interaction term being tested to the model</span></span>
+<span id="cb76-36"><a href="#cb76-36" aria-hidden="true" tabindex="-1"></a>            cv <span class="op">=</span> KFoldCV(selected_interactions, interaction_being_tested)</span>
+<span id="cb76-37"><a href="#cb76-37" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb76-38"><a href="#cb76-38" aria-hidden="true" tabindex="-1"></a>            <span class="co"># If the interaction term being tested reduces the 5-fold cross validation RMSE as compared to the</span></span>
+<span id="cb76-39"><a href="#cb76-39" aria-hidden="true" tabindex="-1"></a>            <span class="co"># previous model, then consider adding it to the model</span></span>
+<span id="cb76-40"><a href="#cb76-40" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> cv<span class="op">&lt;</span>cv_previous_model:</span>
+<span id="cb76-41"><a href="#cb76-41" aria-hidden="true" tabindex="-1"></a>                interactions_that_reduce_KfoldCV.append(interaction_being_tested)</span>
+<span id="cb76-42"><a href="#cb76-42" aria-hidden="true" tabindex="-1"></a>                cv_degree.append(cv)</span>
+<span id="cb76-43"><a href="#cb76-43" aria-hidden="true" tabindex="-1"></a>                degree_set_updated <span class="op">=</span> pd.concat([degree_set_updated, row.to_frame().T])</span>
+<span id="cb76-44"><a href="#cb76-44" aria-hidden="true" tabindex="-1"></a>            interaction_being_tested <span class="op">=</span> <span class="st">'+'</span></span>
+<span id="cb76-45"><a href="#cb76-45" aria-hidden="true" tabindex="-1"></a>        cv_data <span class="op">=</span> pd.DataFrame({<span class="st">'interaction'</span>:interactions_that_reduce_KfoldCV, <span class="st">'cv'</span>:cv_degree})</span>
+<span id="cb76-46"><a href="#cb76-46" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb76-47"><a href="#cb76-47" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Sort the interaction terms that reduce the 5-fold cross valdiation RMSE based on their respective</span></span>
+<span id="cb76-48"><a href="#cb76-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 5-fold cross validation RMSE</span></span>
+<span id="cb76-49"><a href="#cb76-49" aria-hidden="true" tabindex="-1"></a>        cv_data.sort_values(by <span class="op">=</span> <span class="st">'cv'</span>, inplace <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb76-50"><a href="#cb76-50" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb76-51"><a href="#cb76-51" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Break the loop if no interaction of degree 'd' reduces the 5-fold cross validation RMSE as</span></span>
+<span id="cb76-52"><a href="#cb76-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># compared to the previous model</span></span>
+<span id="cb76-53"><a href="#cb76-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> cv_data.shape[<span class="dv">0</span>]<span class="op">==</span><span class="dv">0</span>:</span>
+<span id="cb76-54"><a href="#cb76-54" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb76-55"><a href="#cb76-55" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb76-56"><a href="#cb76-56" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Select the interaction that corresponds to the least 5-fold cross validation RMSE</span></span>
+<span id="cb76-57"><a href="#cb76-57" aria-hidden="true" tabindex="-1"></a>        selected_interactions <span class="op">=</span> selected_interactions <span class="op">+</span> cv_data.iloc[<span class="dv">0</span>,<span class="dv">0</span>]</span>
+<span id="cb76-58"><a href="#cb76-58" aria-hidden="true" tabindex="-1"></a>        cv_previous_model <span class="op">=</span> cv_data.iloc[<span class="dv">0</span>,<span class="dv">1</span>]</span>
+<span id="cb76-59"><a href="#cb76-59" aria-hidden="true" tabindex="-1"></a>        cv_degree <span class="op">=</span> []<span class="op">;</span> interactions_that_reduce_KfoldCV <span class="op">=</span> []</span>
+<span id="cb76-60"><a href="#cb76-60" aria-hidden="true" tabindex="-1"></a>        degree_set <span class="op">=</span> degree_set_updated.copy()</span>
+<span id="cb76-61"><a href="#cb76-61" aria-hidden="true" tabindex="-1"></a>        degree_set_updated <span class="op">=</span> pd.DataFrame(columns <span class="op">=</span> degree_set.columns)</span>
+<span id="cb76-62"><a href="#cb76-62" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb76-63"><a href="#cb76-63" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Print the progress after each model update, i.e., after an interaction term is selected</span></span>
+<span id="cb76-64"><a href="#cb76-64" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Degree of interactions being considered:"</span>,d, <span class="st">", 5-fold CV RMSE:"</span>, cv_previous_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Degree of interactions being considered: 2 , 5-fold CV RMSE: 1224.0821140497299
+Degree of interactions being considered: 2 , 5-fold CV RMSE: 1128.7093502327425
+Degree of interactions being considered: 2 , 5-fold CV RMSE: 1108.174809672955
+Degree of interactions being considered: 2 , 5-fold CV RMSE: 1103.5434348984757
+Degree of interactions being considered: 2 , 5-fold CV RMSE: 1103.0756979137202
+Degree of interactions being considered: 3 , 5-fold CV RMSE: 1023.0516854345414
+Degree of interactions being considered: 3 , 5-fold CV RMSE: 995.2173896017806
+Degree of interactions being considered: 3 , 5-fold CV RMSE: 989.79723581256
+Degree of interactions being considered: 3 , 5-fold CV RMSE: 987.1784430694422
+Degree of interactions being considered: 3 , 5-fold CV RMSE: 985.4880836029123
+Degree of interactions being considered: 4 , 5-fold CV RMSE: 967.050560869693
+Degree of interactions being considered: 4 , 5-fold CV RMSE: 937.6173573617027
+Degree of interactions being considered: 4 , 5-fold CV RMSE: 932.9242993193081
+Degree of interactions being considered: 4 , 5-fold CV RMSE: 931.3282206329402
+Degree of interactions being considered: 5 , 5-fold CV RMSE: 926.3609480273683
+Degree of interactions being considered: 5 , 5-fold CV RMSE: 920.9731827478967
+Degree of interactions being considered: 5 , 5-fold CV RMSE: 915.0382768947711</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>selected_interactions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>model16 <span class="op">=</span> sm.ols(<span class="st">'money_made_inv ~ out_prncp_inv + loan_amnt + int_rate + mort_acc +</span><span class="ch">\</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="st">        total_rec_late_fee + loan_amnt*int_rate + out_prncp_inv*int_rate + I(out_prncp_inv**2) +</span><span class="ch">\</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="st">        I(total_rec_late_fee**2) + int_rate*mort_acc + out_prncp_inv*loan_amnt*total_rec_late_fee + </span><span class="ch">\</span></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="st">        I(loan_amnt**2)*mort_acc + I(out_prncp_inv**2)*int_rate + I(int_rate**3) + I(out_prncp_inv**2)*loan_amnt+</span><span class="ch">\</span></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a><span class="st">        out_prncp_inv*I(loan_amnt**2)*int_rate + I(loan_amnt**3)*int_rate + out_prncp_inv*I(int_rate**3) +</span><span class="ch">\</span></span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="st">        I(out_prncp_inv**2)*loan_amnt*int_rate + I(out_prncp_inv**3)*int_rate*mort_acc + I(loan_amnt**3)*I(int_rate**2) +</span><span class="ch">\</span></span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a><span class="st">        I(loan_amnt**3)*I(total_rec_late_fee**2)'</span>, data <span class="op">=</span> train).fit()</span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>model16.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="225">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> pd.DataFrame({<span class="st">"id"</span>:test.iloc[:, <span class="dv">0</span>], <span class="st">"Predicted"</span>:model16.predict(test)})</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>test_zero <span class="op">=</span> <span class="bu">list</span>(test[test[<span class="st">"out_prncp_inv"</span>]<span class="op">==</span><span class="dv">0</span>].index)</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>predictions.loc[test_zero, <span class="st">"Predicted"</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>predictions.to_csv(<span class="st">"pred16.csv"</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="lasso" class="level3">
+<h3 class="anchored" data-anchor-id="lasso">Lasso</h3>
+<div class="cell" data-execution_count="233">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> train_1.money_made_inv</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtering through the predictors</span></span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating a set of predictors from which we need to find the best subset of predictors</span></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> train_1[[<span class="st">'acc_now_delinq'</span>, <span class="st">'acc_open_past_24mths'</span>, <span class="st">'annual_inc'</span>, <span class="st">'avg_cur_bal'</span>,</span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>       <span class="st">'bc_util'</span>, <span class="st">'delinq_2yrs'</span>, <span class="st">'delinq_amnt'</span>, <span class="st">'dti'</span>, <span class="st">'int_rate'</span>, <span class="st">'loan_amnt'</span>,</span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a>       <span class="st">'mort_acc'</span>, <span class="st">'num_sats'</span>, <span class="st">'num_tl_120dpd_2m'</span>, <span class="st">'num_tl_90g_dpd_24m'</span>,</span>
+<span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a>       <span class="st">'num_tl_30dpd'</span>, <span class="st">'out_prncp_inv'</span>, <span class="st">'pub_rec'</span>, <span class="st">'pub_rec_bankruptcies'</span>,</span>
+<span id="cb81-9"><a href="#cb81-9" aria-hidden="true" tabindex="-1"></a>       <span class="st">'tot_coll_amt'</span>, <span class="st">'tot_cur_bal'</span>, <span class="st">'total_rec_late_fee'</span>]]</span>
+<span id="cb81-10"><a href="#cb81-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-11"><a href="#cb81-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Standardizing predictors so that each of them have zero mean and unit variance</span></span>
+<span id="cb81-12"><a href="#cb81-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-13"><a href="#cb81-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Defining a scaler object</span></span>
+<span id="cb81-14"><a href="#cb81-14" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb81-15"><a href="#cb81-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-16"><a href="#cb81-16" aria-hidden="true" tabindex="-1"></a><span class="co">#The scaler object will contain the mean and variance of each column (predictor) of X. </span></span>
+<span id="cb81-17"><a href="#cb81-17" aria-hidden="true" tabindex="-1"></a><span class="co">#These values will be useful to scale test data based on the same mean and variance as obtained on train data</span></span>
+<span id="cb81-18"><a href="#cb81-18" aria-hidden="true" tabindex="-1"></a>scaler.fit(X)</span>
+<span id="cb81-19"><a href="#cb81-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-20"><a href="#cb81-20" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the scaler object (or the values of mean and variance stored in it) to standardize X (or train data)</span></span>
+<span id="cb81-21"><a href="#cb81-21" aria-hidden="true" tabindex="-1"></a>Xstd <span class="op">=</span> scaler.transform(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="235">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Let us use cross validation to find the optimal value of the tuning parameter - lambda</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="co">#For the optimal lambda, the cross validation error will be the least</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Note that we are reducing the range of alpha so as to better visualize the minimum</span></span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>alphas <span class="op">=</span> <span class="dv">10</span><span class="op">**</span>np.linspace(<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">5</span>,<span class="dv">200</span>)<span class="op">*</span><span class="fl">0.5</span></span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>lassocv <span class="op">=</span> LassoCV(alphas <span class="op">=</span> alphas, cv <span class="op">=</span> <span class="dv">10</span>, max_iter <span class="op">=</span> <span class="dv">100000</span>)</span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>lassocv.fit(Xstd, y)</span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Optimal value of the tuning parameter - lamda</span></span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>lassocv.alpha_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="235">
+<pre><code>0.05</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="244">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Test dataset</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>Xtest <span class="op">=</span> test[[<span class="st">'acc_now_delinq'</span>, <span class="st">'acc_open_past_24mths'</span>, <span class="st">'annual_inc'</span>, <span class="st">'avg_cur_bal'</span>,</span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">'bc_util'</span>, <span class="st">'delinq_2yrs'</span>, <span class="st">'delinq_amnt'</span>, <span class="st">'dti'</span>, <span class="st">'int_rate'</span>, <span class="st">'loan_amnt'</span>,</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>       <span class="st">'mort_acc'</span>, <span class="st">'num_sats'</span>, <span class="st">'num_tl_120dpd_2m'</span>, <span class="st">'num_tl_90g_dpd_24m'</span>,</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>       <span class="st">'num_tl_30dpd'</span>, <span class="st">'out_prncp_inv'</span>, <span class="st">'pub_rec'</span>, <span class="st">'pub_rec_bankruptcies'</span>,</span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>       <span class="st">'tot_coll_amt'</span>, <span class="st">'tot_cur_bal'</span>, <span class="st">'total_rec_late_fee'</span>]]</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Standardizing test data</span></span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>Xtest_std <span class="op">=</span> scaler.transform(Xtest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="251">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the developed lasso model to predict on test data</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>lasso <span class="op">=</span> Lasso(alpha <span class="op">=</span> lassocv.alpha_)</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>lasso.fit(Xstd, y)</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>pred<span class="op">=</span>lasso.predict(Xtest_std)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="252">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> pd.DataFrame({<span class="st">"id"</span>:test.iloc[:, <span class="dv">0</span>], <span class="st">"Predicted"</span>:lasso.predict(test)})</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>test_zero <span class="op">=</span> <span class="bu">list</span>(test[test[<span class="st">"out_prncp_inv"</span>]<span class="op">==</span><span class="dv">0</span>].index)</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>predictions.loc[test_zero, <span class="st">"Predicted"</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>predictions.to_csv(<span class="st">"pred18.csv"</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/linhnganguyen/opt/anaconda3/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but Lasso was fitted without feature names
+  warnings.warn(</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<pre><code>ValueError: could not convert string to float: 'NY'</code></pre>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
